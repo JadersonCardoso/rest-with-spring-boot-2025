@@ -1,15 +1,23 @@
 package br.com.jadersoncardoso.model;
 
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.Objects;
-
+@Entity
+@Table(name = "PERSON")
 public class Person implements Serializable {
     private static final long serialVersionUID = 1L;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String fisrtName;
+    @Column(name = "first_name", nullable = false, length = 80)
+    private String firstName;
+    @Column(name = "last_name", nullable = false, length = 80)
     private String lastName;
+    @Column(nullable = false, length = 100)
     private String address;
+    @Column(nullable = false, length = 6)
     private String gender;
     public Person() {
     }
@@ -22,12 +30,12 @@ public class Person implements Serializable {
         this.id = id;
     }
 
-    public String getFisrtName() {
-        return fisrtName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFisrtName(String fisrtName) {
-        this.fisrtName = fisrtName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
@@ -59,13 +67,11 @@ public class Person implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
-        return Objects.equals(id, person.id) && Objects.equals(fisrtName, person.fisrtName)
-                && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address)
-                && Objects.equals(gender, person.gender);
+        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, fisrtName, lastName, address, gender);
+        return Objects.hash(id, firstName, lastName, address, gender);
     }
 }
