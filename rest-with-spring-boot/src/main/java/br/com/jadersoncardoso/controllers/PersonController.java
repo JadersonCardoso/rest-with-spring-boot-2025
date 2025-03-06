@@ -1,6 +1,6 @@
 package br.com.jadersoncardoso.controllers;
 
-import br.com.jadersoncardoso.model.Person;
+import br.com.jadersoncardoso.data.dto.PersonDTO;
 import br.com.jadersoncardoso.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,20 +17,20 @@ public class PersonController {
     @Autowired
     private PersonService service;
     @GetMapping("/all")
-    public List<Person> findAll() {
+    public List<PersonDTO> findAll() {
         return service.findAll();
     }
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person findById(@PathVariable Long id) {
+    public PersonDTO findById(@PathVariable Long id) {
        return service.findById(id);
     }
    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person create(@RequestBody Person person) {
-        return service.create(person);
+    public PersonDTO create(@RequestBody PersonDTO personDTO) {
+        return service.create(personDTO);
     }
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person update(@RequestBody Person person) {
-        return service.update(person);
+    public PersonDTO update(@RequestBody PersonDTO personDTO) {
+        return service.update(personDTO);
     }
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
