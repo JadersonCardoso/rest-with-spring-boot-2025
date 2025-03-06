@@ -3,16 +3,18 @@ package br.com.jadersoncardoso.services;
 import br.com.jadersoncardoso.exception.ResourceNotFoundException;
 import br.com.jadersoncardoso.model.Person;
 import br.com.jadersoncardoso.repository.PersonRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.logging.Logger;
+
 
 @Service
 public class PersonService {
     private final AtomicLong counter = new AtomicLong();
-    private Logger logger = Logger.getLogger(PersonService.class.getName());
+    private Logger logger = LoggerFactory.getLogger(PersonService.class);
 
     private final PersonRepository personRepository;
     public PersonService(PersonRepository personRepository) {
@@ -20,15 +22,15 @@ public class PersonService {
     }
 
     public List<Person> findAll() {
-        logger.info("Find all People!");
+        logger.info("Finding all People!");
 
         return personRepository.findAll();
     }
     public Person findById(Long id) {
-        logger.info("Find one Person!");
+        logger.info("Finding one Person!");
 
         return personRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("No records found fir this ID"));
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
     }
     public Person create(Person person) {
         logger.info("Creating one Person!");
