@@ -1,17 +1,35 @@
 package br.com.jadersoncardoso.data.dto;
 
+import br.com.jadersoncardoso.serializer.GenderSerializer;
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
-
+//@JsonPropertyOrder({"id","first_name","lastName", "address", "gender"})
+@JsonFilter("PersonFilter")
 public class PersonDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Long id;
+//    @JsonProperty("first_name")
     private String firstName;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String lastName;
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private String phoneNumber;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private Date birthDay;
     private String address;
+//    @JsonIgnore
+    @JsonSerialize(using = GenderSerializer.class)
     private String gender;
+
+    private String sensitiveDate;
     public PersonDTO() {
     }
 
@@ -33,6 +51,15 @@ public class PersonDTO implements Serializable {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    public Date getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(Date birthDay) {
+        this.birthDay = birthDay;
+    }
+
     public String getAddress() {
         return address;
     }
@@ -45,16 +72,33 @@ public class PersonDTO implements Serializable {
     public void setGender(String gender) {
         this.gender = gender;
     }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getSensitiveDate() {
+        return sensitiveDate;
+    }
+
+    public void setSensitiveDate(String sensitiveDate) {
+        this.sensitiveDate = sensitiveDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PersonDTO person = (PersonDTO) o;
-        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender);
+        PersonDTO personDTO = (PersonDTO) o;
+        return Objects.equals(id, personDTO.id) && Objects.equals(firstName, personDTO.firstName) && Objects.equals(lastName, personDTO.lastName) && Objects.equals(phoneNumber, personDTO.phoneNumber) && Objects.equals(birthDay, personDTO.birthDay) && Objects.equals(address, personDTO.address) && Objects.equals(gender, personDTO.gender) && Objects.equals(sensitiveDate, personDTO.sensitiveDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, address, gender);
+        return Objects.hash(id, firstName, lastName, phoneNumber, birthDay, address, gender, sensitiveDate);
     }
 }
