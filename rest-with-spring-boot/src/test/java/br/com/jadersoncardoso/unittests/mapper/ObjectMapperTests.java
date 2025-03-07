@@ -1,6 +1,6 @@
 package br.com.jadersoncardoso.unittests.mapper;
 
-import br.com.jadersoncardoso.data.dto.PersonDTO;
+import br.com.jadersoncardoso.data.dto.v1.PersonDTO;
 import br.com.jadersoncardoso.model.Person;
 import br.com.jadersoncardoso.unittests.mapper.mocks.MockPerson;
 import org.junit.jupiter.api.BeforeEach;

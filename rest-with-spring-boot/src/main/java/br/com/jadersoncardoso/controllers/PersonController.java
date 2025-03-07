@@ -1,6 +1,7 @@
 package br.com.jadersoncardoso.controllers;
 
-import br.com.jadersoncardoso.data.dto.PersonDTO;
+import br.com.jadersoncardoso.data.dto.v1.PersonDTO;
+import br.com.jadersoncardoso.data.dto.v2.PersonDTOV2;
 import br.com.jadersoncardoso.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,12 @@ public class PersonController {
    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public PersonDTO create(@RequestBody PersonDTO personDTO) {
         return service.create(personDTO);
+    }
+    @PostMapping(value = "/v2",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public PersonDTOV2 create(@RequestBody PersonDTOV2 personDTO) {
+        return service.createV2(personDTO);
     }
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public PersonDTO update(@RequestBody PersonDTO personDTO) {

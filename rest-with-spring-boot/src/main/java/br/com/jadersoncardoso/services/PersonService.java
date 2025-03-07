@@ -1,7 +1,9 @@
 package br.com.jadersoncardoso.services;
 
-import br.com.jadersoncardoso.data.dto.PersonDTO;
+import br.com.jadersoncardoso.data.dto.v1.PersonDTO;
+import br.com.jadersoncardoso.data.dto.v2.PersonDTOV2;
 import br.com.jadersoncardoso.exception.ResourceNotFoundException;
+import br.com.jadersoncardoso.mapper.custom.PersonMapper;
 import br.com.jadersoncardoso.model.Person;
 import br.com.jadersoncardoso.repository.PersonRepository;
 import org.slf4j.Logger;
@@ -21,8 +23,10 @@ public class PersonService {
     private Logger logger = LoggerFactory.getLogger(PersonService.class);
 
     private final PersonRepository personRepository;
-    public PersonService(PersonRepository personRepository) {
+    private final PersonMapper converter;
+    public PersonService(PersonRepository personRepository, PersonMapper converter) {
         this.personRepository = personRepository;
+        this.converter = converter;
     }
 
     public List<PersonDTO> findAll() {
@@ -40,6 +44,11 @@ public class PersonService {
         logger.info("Creating one Person!");
         var person = parseObject(personDTO, Person.class);
         return parseObject(personRepository.save(person), PersonDTO.class);
+    }
+    public PersonDTOV2 createV2(PersonDTOV2 personDTO) {
+        logger.info("Creating one Person!");
+        var entity = converter.convertDTOToEntity(personDTO);
+        return converter.convertEntityToDTO(personRepository.save(entity));
     }
     public PersonDTO update(PersonDTO person) {
         logger.info("Updating one Person!");

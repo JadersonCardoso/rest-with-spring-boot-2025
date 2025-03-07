@@ -1,6 +1,6 @@
 package br.com.jadersoncardoso.unittests.mapper.mocks;
 
-import br.com.jadersoncardoso.data.dto.PersonDTO;
+import br.com.jadersoncardoso.data.dto.v1.PersonDTO;
 import br.com.jadersoncardoso.model.Person;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package br.com.jadersoncardoso.data.dto;
+package br.com.jadersoncardoso.data.dto.v1;
 
 import java.io.Serializable;
 import java.util.Objects;
