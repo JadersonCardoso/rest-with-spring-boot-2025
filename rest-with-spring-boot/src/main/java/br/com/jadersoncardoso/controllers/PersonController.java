@@ -2,6 +2,12 @@ package br.com.jadersoncardoso.controllers;
 
 import br.com.jadersoncardoso.data.dto.PersonDTO;
 import br.com.jadersoncardoso.services.PersonService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,10 +18,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/person/v1")
-public class PersonController {
+@Tag(name = "People", description = "Endpoints for Managing People.")
+public class PersonController implements br.com.jadersoncardoso.controllers.docs.PersonControllerDocs {
 
-    @Autowired
-    private PersonService service;
+    private final PersonService service;
+    public PersonController(PersonService service) {
+        this.service = service;
+    }
+
+    @Override
     @GetMapping(produces = {
             MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE,
@@ -23,6 +34,7 @@ public class PersonController {
     public List<PersonDTO> findAll() {
         return service.findAll();
     }
+    @Override
     @GetMapping(value = "/{id}", produces = {
             MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE,
@@ -30,6 +42,7 @@ public class PersonController {
     public PersonDTO findById(@PathVariable Long id) {
        return service.findById(id);
     }
+   @Override
    @PostMapping(
            consumes = {
                 MediaType.APPLICATION_JSON_VALUE,
@@ -42,6 +55,7 @@ public class PersonController {
     public PersonDTO create(@RequestBody PersonDTO personDTO) {
         return service.create(personDTO);
     }
+    @Override
     @PutMapping(
             consumes = {
                 MediaType.APPLICATION_JSON_VALUE,
@@ -54,6 +68,7 @@ public class PersonController {
     public PersonDTO update(@RequestBody PersonDTO personDTO) {
         return service.update(personDTO);
     }
+    @Override
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         service.delete(id);
