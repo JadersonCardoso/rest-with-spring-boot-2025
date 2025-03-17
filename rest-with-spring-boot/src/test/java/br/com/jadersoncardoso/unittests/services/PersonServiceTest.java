@@ -1,9 +1,10 @@
-package br.com.jadersoncardoso.services;
+package br.com.jadersoncardoso.unittests.services;
 
 import br.com.jadersoncardoso.data.dto.PersonDTO;
 import br.com.jadersoncardoso.exception.RequiredObjectIsNullException;
 import br.com.jadersoncardoso.model.Person;
 import br.com.jadersoncardoso.repository.PersonRepository;
+import br.com.jadersoncardoso.services.PersonService;
 import br.com.jadersoncardoso.unittests.mapper.mocks.MockPerson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
