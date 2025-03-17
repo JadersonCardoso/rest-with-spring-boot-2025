@@ -1,4 +1,4 @@
-package br.com.jadersoncardoso.unittests.mapper.mocks;
+package br.com.jadersoncardoso.mapper.mocks;
 
 import br.com.jadersoncardoso.data.dto.PersonDTO;
 import br.com.jadersoncardoso.model.Person;

@@ -1,11 +1,10 @@
-package br.com.jadersoncardoso.unittests.services;
+package br.com.jadersoncardoso.services;
 
 import br.com.jadersoncardoso.data.dto.BookDTO;
 import br.com.jadersoncardoso.exception.RequiredObjectIsNullException;
 import br.com.jadersoncardoso.model.Book;
 import br.com.jadersoncardoso.repository.BookRepository;
-import br.com.jadersoncardoso.services.BookService;
-import br.com.jadersoncardoso.unittests.mapper.mocks.MockBook;
+import br.com.jadersoncardoso.mapper.mocks.MockBook;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
