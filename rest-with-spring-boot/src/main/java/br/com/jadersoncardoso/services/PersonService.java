@@ -9,6 +9,7 @@ import br.com.jadersoncardoso.repository.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -76,12 +77,25 @@ public class PersonService {
                 .orElseThrow(() -> new ResourceNotFoundException("No records found fir this ID"));
         personRepository.delete(entity);
     }
+    @Transactional
+    public PersonDTO disablePerson(Long id) {
+        logger.info("Disablind one Person!");
+
+        personRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No records found fir this ID"));
+        personRepository.disabledPerson(id);
+
+        var entity = personRepository.findById(id).get();
+        var dto = parseObject(entity, PersonDTO.class);
+        return dto;
+    }
 
     private void addHateoasLinks(PersonDTO dto) {
         dto.add(linkTo(methodOn(PersonController.class).findById(dto.getId())).withSelfRel().withType("GET"));
         dto.add(linkTo(methodOn(PersonController.class).findAll()).withRel("findAll").withType("GET"));
         dto.add(linkTo(methodOn(PersonController.class).create(dto)).withRel("create").withType("POST"));
         dto.add(linkTo(methodOn(PersonController.class).update(dto)).withRel("update").withType("PUT"));
+        dto.add(linkTo(methodOn(PersonController.class).disablePerson(dto.getId())).withRel("disablePerson").withType("PATH"));
         dto.add(linkTo(methodOn(PersonController.class).delete(dto.getId())).withRel("delete").withType("DELETE"));
     }
 }

@@ -1,5 +1,6 @@
 package br.com.jadersoncardoso.controllers;
 
+import br.com.jadersoncardoso.controllers.docs.PersonControllerDocs;
 import br.com.jadersoncardoso.data.dto.PersonDTO;
 import br.com.jadersoncardoso.services.PersonService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -13,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/person/v1")
 @Tag(name = "People", description = "Endpoints for Managing People.")
-public class PersonController implements br.com.jadersoncardoso.controllers.docs.PersonControllerDocs {
+public class PersonController implements PersonControllerDocs {
 
     private final PersonService service;
     public PersonController(PersonService service) {
@@ -62,12 +63,23 @@ public class PersonController implements br.com.jadersoncardoso.controllers.docs
     public PersonDTO update(@RequestBody PersonDTO personDTO) {
         return service.update(personDTO);
     }
+
+    @PatchMapping(value = "/{id}",
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE}
+    )
+    @Override
+    public PersonDTO disablePerson(Long id) {
+        return service.disablePerson(id);
+    }
+
     @Override
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
 
 }
