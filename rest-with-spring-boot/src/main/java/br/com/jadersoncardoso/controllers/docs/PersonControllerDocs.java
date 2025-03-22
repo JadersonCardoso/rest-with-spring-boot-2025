@@ -1,5 +1,6 @@
 package br.com.jadersoncardoso.controllers.docs;
 
+import br.com.jadersoncardoso.data.dto.BookDTO;
 import br.com.jadersoncardoso.data.dto.PersonDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -78,6 +79,21 @@ public interface PersonControllerDocs {
     )
     PersonDTO update(@RequestBody PersonDTO personDTO);
 
+    @Operation(summary = "Disable a Person",
+            description = "Disable a especific person a by your ID",
+            tags = {"Books"},
+            responses = {
+                    @ApiResponse(description = "Success", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = PersonDTO.class))),
+                    @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
+            }
+    )
+    PersonDTO disablePerson(@PathVariable Long id);
+
     @Operation(summary = "Delete a Person",
             description = "Delete a Person",
             tags = {"People"},
@@ -92,4 +108,7 @@ public interface PersonControllerDocs {
             }
     )
     ResponseEntity<?> delete(@PathVariable Long id);
+
+
+
 }
