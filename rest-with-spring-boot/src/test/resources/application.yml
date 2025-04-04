@@ -1,7 +1,13 @@
 server:
   port: 8888
+  compression:
+    enabled: true
+  http2:
+    enabled: true
 cors:
   originPatterns: http://localhost:8080,http://localhost:3000,https://www.jadersonbrancao.com.br
+file:
+  upload-dir: /UplodDir
 spring:
   application:
     name: rest-with-spring-boot
@@ -14,6 +20,12 @@ spring:
       hibernate:
     show-sql: false
     open-in-view: false
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-request-size: 215MB
+      max-file-size: 200MB
 logging:
   level:
 #    root: WARN
@@ -23,3 +35,5 @@ spring-doc:
   paths-to-match: /api/**/v1/**
   swagger-ui:
     use-root-path: true
+
+

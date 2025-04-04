@@ -1,7 +1,9 @@
 package br.com.jadersoncardoso.integrationtests.controllers.withjson;
 
 import br.com.jadersoncardoso.config.TestConfigs;
-import br.com.jadersoncardoso.data.dto.PersonDTO;
+
+import br.com.jadersoncardoso.integrationtests.dto.PersonDTO;
+import br.com.jadersoncardoso.integrationtests.dto.wrappers.WrapperPersonDTO;
 import br.com.jadersoncardoso.integrationtests.testeconteiners.AbstractIntegrationTest;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
@@ -15,6 +17,7 @@ import org.testcontainers.shaded.com.fasterxml.jackson.databind.DeserializationF
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
@@ -131,7 +134,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
                 .body()
                 .asString();
 
-  PersonDTO getPerson = objectMapper.readValue(content, PersonDTO.class);
+        PersonDTO getPerson = objectMapper.readValue(content, PersonDTO.class);
         person = getPerson;
 
         assertNotNull(getPerson.getId());
@@ -147,6 +150,46 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
         assertTrue(getPerson.getEnabled());
     }
 
+
+    @Test
+    @Order(6)
+    void finAllTest() throws IOException {
+
+        specification = new RequestSpecBuilder()
+                .addHeader(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_LOCALHOST)
+                .setBasePath("/api/person/v1")
+                .setPort(TestConfigs.SERVER_PORT)
+                .addFilter(new RequestLoggingFilter(LogDetail.ALL))
+                .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
+                .build();
+
+        var content = given(specification)
+                .queryParam("page", 3, "size", 12, "direction", "asc")
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when()
+                .get()
+                .then()
+                .statusCode(200)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .extract()
+                .body().asString();
+
+
+        WrapperPersonDTO wrapper = objectMapper.readValue(content, WrapperPersonDTO.class);
+        List<PersonDTO> people = wrapper.getEmbedded().getPeople();
+
+        PersonDTO personOne = people.get(0);
+
+        assertNotNull(personOne.getId());
+        assertTrue(personOne.getId() > 0);
+
+        assertEquals("Allin", personOne.getFirstName());
+        assertEquals("Emmot", personOne.getLastName());
+        assertEquals("7913 Lindbergh Way", personOne.getAddress());
+        assertEquals("Male", personOne.getGender());
+        assertFalse(personOne.getEnabled());
+
+    }
 
     private void mockPerson() {
         person.setFirstName("Linus");
