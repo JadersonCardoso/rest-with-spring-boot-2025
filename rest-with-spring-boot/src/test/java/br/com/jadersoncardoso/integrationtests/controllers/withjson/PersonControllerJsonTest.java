@@ -74,7 +74,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
         assertEquals("Male", creatdPerson.getGender());
         assertTrue(creatdPerson.getEnabled());
 
-    } @Test
+    }
+    @Test
     @Order(2)
     void updateTest() throws IOException {
         person.setLastName("Benedict Torvalds");
